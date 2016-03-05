@@ -18,8 +18,6 @@ ofxImageGuiElement::ofxImageGuiElement(ofRectangle view, ofTexture * texture, st
     mAnimInterval = 0.1;
     mTouchStarted = -1;
     mAnimPct = 0;
-    
-    createMesh();
 }
 
 ofxImageGuiElement::ofxImageGuiElement(ofXml * xml, ofTexture * texture)
@@ -32,23 +30,6 @@ ofxImageGuiElement::ofxImageGuiElement(ofXml * xml, ofTexture * texture)
     mAnimInterval = 0.1;
     mTouchStarted = -1;
     mAnimPct = 0;
-    
-    createMesh();
-}
-
-void ofxImageGuiElement::createMesh()
-{
-    mMesh.clear();
-    mMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-    mMesh.addVertex(ofVec3f(-mView.width / 2., -mView.height / 2., 0));
-    mMesh.addVertex(ofVec3f(-mView.width / 2., -mView.height / 2. + mView.height, 0));
-    mMesh.addVertex(ofVec3f(-mView.width / 2. + mView.width, -mView.height / 2., 0));
-    mMesh.addVertex(ofVec3f(-mView.width / 2. + mView.width, -mView.height / 2. + mView.height, 0));
-    
-    mMesh.addTexCoord(ofVec2f(mView.x, mView.y));
-    mMesh.addTexCoord(ofVec2f(mView.x, mView.y + mView.height));
-    mMesh.addTexCoord(ofVec2f(mView.x + mView.width, mView.y));
-    mMesh.addTexCoord(ofVec2f(mView.x + mView.width, mView.y + mView.height));
 }
 
 void ofxImageGuiElement::update()
@@ -69,19 +50,17 @@ void ofxImageGuiElement::update()
 
 void ofxImageGuiElement::draw()
 {
-    mTexture->bind();
     float sc = ofMap(mAnimPct, 0, 1, 1, 0.9);
 
     ofPushMatrix();
     ofTranslate(mView.getCenter());
     ofScale(sc, sc);
     
-    ofSetColor(255, ofMap(mAnimPct, 0, 1, 255, 200));
-    mMesh.draw();
+    ofSetColor(ofMap(mAnimPct, 0, 1, 255, 200));
+ 
+    mTexture->drawSubsection(-mView.width / 2., -mView.height / 2., mView.width, mView.height, mView.x, mView.y);
     
     ofPopMatrix();
-    
-    mTexture->unbind();
 }
 
 void ofxImageGuiElement::onTouch()

@@ -142,8 +142,6 @@ void ofxImageGui::draw()
     ofSetColor(0, 255, 255, 250);
     ofFill();
     ofDrawCircle(mViewSelection.getCenter(), 2);
-    
-    
 }
 
 void ofxImageGui::onTouch(ofVec2f p)

@@ -24,10 +24,8 @@ public:
     void onTouch();
     bool isPointOver(ofVec2f p);
     ofXml save();
-    void createMesh();
     
-    ofRectangle mView;
-    ofMesh mMesh;
+    ofRectangle mView;    
     ofTexture * mTexture;
     float mTouchStarted, mAnimInterval;
     float mAnimPct;
